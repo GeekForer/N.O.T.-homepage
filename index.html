@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N.O.T.</title>
+  <link rel="icon" href="https://i.imgur.com/5QVULrx.png" type="image/png">
+  <meta property="og:title" content="N.O.T.">
+  <meta property="og:description" content="“No Ordinary Team”">
+  <meta property="og:image" content="https://i.imgur.com/yiCxMDd.png">
+  <meta property="og:url" content="http://n0t.kro.kr">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome 추가 -->
+
+  <style>
+    /* CSS 변수 정의 (기본값: 라이트 모드) */
+    :root {
+      --bg-color: #f0f2f5;
+      --card-bg: #ffffff;
+      --text-color: #333;
+      --subtitle-color: #555;
+      --border-color: #e0e0e0;
+      --table-header-bg: #2c3e50;
+      --table-header-text: white;
+      --page-title-color: #2c3e50; /* 라이트 모드에서 가치표 제목 색상 */
+      --small-text-color: #888888; /* 라이트 모드에서 작은 텍스트 색상 */
+      --floating-btn-icon-color: #2c3e50; /* 라이트 모드에서 플로팅 버튼 아이콘 색상 */
+
+      /* 그림자 변수 정의 (기본값: 라이트 모드 그림자) */
+      --general-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --icon-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* 다크 모드일 때 변수 오버라이드 (그림자 초기값 복원) */
+    body.dark-mode {
+      --bg-color: #1a1a1a;
+      --card-bg: #2d2d2d;
+      --text-color: #e0e0e0;
+      --subtitle-color: #b0b0b0;
+      --border-color: #3d3d3d;
+      --table-header-bg: #1c1c1c;
+      --table-header-text: #e0e0e0;
+      --page-title-color: var(--text-color); /* 다크 모드에서 가치표 제목 색상을 일반 텍스트 색상으로 */
+      --small-text-color: var(--subtitle-color); /* 다크 모드에서 작은 텍스트 색상을 subtitle-color로 */
+      --floating-btn-icon-color: var(--text-color); /* 다크 모드에서 플로팅 버튼 아이콘 색상을 일반 텍스트 색상으로 */
+
+      /* 다크 모드 그림자를 초기 상태로 복원 (아래로 치우친 어두운 그림자) */
+      --general-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      --icon-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    }
+
+    body {
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
+      padding: 20px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 100vh;
+      background-color: var(--bg-color); /* 변수 사용 */
+      color: var(--text-color); /* 변수 사용 */
+      transition: background-color 0.3s ease, color 0.3s ease; /* 전환 효과 */
+    }
+    .header-section {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .title-box {
+      background-color: var(--card-bg); /* 변수 사용 */
+      background-image: url('https://i.imgur.com/MsFKZzg.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border: 1px solid var(--border-color); /* 변수 사용 */
+      border-radius: 16px;
+      padding: clamp(20px, 6vw, 30px) clamp(80px, 20vw, 140px);
+      box-shadow: var(--general-shadow); /* 변수 사용 */
+      margin-bottom: 20px;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* 전환 효과 */
+    }
+    .title-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.3); /* 항상 어둡게 유지 */
+      border-radius: 16px;
+      z-index: 1;
+      transition: background-color 0.3s ease; /* 전환 효과 */
+    }
+    .main-title {
+      color: #ffffff; /* 기본은 흰색 */
+      margin: 0;
+      font-size: clamp(1.8em, 5vw, 2.8em);
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* 기본 텍스트 그림자 */
+      white-space: nowrap;
+      position: relative;
+      z-index: 2;
+    }
+    .subtitle {
+      color: var(--subtitle-color); /* 변수 사용 */
+      font-size: clamp(0.9em, 2vw, 1.1em);
+      margin-bottom: 50px;
+      transition: color 0.3s ease; /* 전환 효과 */
+    }
+    .page-title {
+      color: var(--page-title-color); /* 변수 사용 */
+      font-size: clamp(1.6em, 4vw, 2.2em);
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* 기본 텍스트 그림자 */
+      text-align: center;
+      width: 100%;
+      margin-top: 50px;
+      margin-bottom: 0;
+      transition: color 0.3s ease; /* 전환 효과 */
+    }
+    .page-title a {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 1200px;
+      padding: 20px;
+    }
+    /* 카드 링크 스타일 */
+    .card-link {
+      text-decoration: none; /* 링크 밑줄 제거 */
+      color: inherit; /* 링크 색상 상속 */
+      display: flex; /* 내부 카드가 flexbox를 유지하도록 */
+      align-items: flex-start; /* 내부 카드의 align-items 유지 */
+      border: 1px solid var(--border-color); /* 변수 사용 */
+      border-radius: 16px;
+      padding: 15px;
+      width: 340px;
+      background-color: var(--card-bg); /* 변수 사용 */
+      box-shadow: var(--general-shadow); /* 변수 사용 */
+      transition: transform 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* 전환 효과 */
+      cursor: pointer; /* 클릭 가능한 요소임을 나타냄 */
+    }
+    .card-link:hover {
+      transform: translateY(-5px);
+    }
+    .card-link .image { /* card-link 내의 이미지 */
+      width: 125px; /* 이미지 크기 증가 */
+      height: 125px; /* 이미지 크기 증가 */
+      border-radius: 12px;
+      margin-right: 15px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .card-link .info { /* card-link 내의 정보 섹션 */
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 6px 12px;
+      flex-grow: 1;
+      width: 100%;
+    }
+    .card-link .info h2 {
+      grid-column: span 2;
+      margin: 0 0 8px 0;
+      font-size: clamp(1em, 2.5vw, 1.1em);
+      color: var(--text-color); /* 변수 사용 */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+      transition: color 0.3s ease; /* 전환 효과 */
+    }
+    .card-link .info-item {
+      white-space: nowrap;
+      font-size: clamp(0.75em, 2vw, 0.85em);
+      color: var(--subtitle-color); /* 변수 사용 */
+      transition: color 0.3s ease; /* 전환 효과 */
+    }
+
+    /* 통합된 text 클래스 스타일 */
+    .text {
+      font-size: clamp(0.75em, 1.8vw, 0.85em);
+      color: var(--small-text-color); /* 새로운 변수 사용 */
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      padding: 0;
+      transition: color 0.3s ease; /* 전환 효과 */
+    }
+
+    /* 플로팅 컨트롤 컨테이너 */
+    .floating-controls {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: var(--card-bg);
+        padding: 15px;
+        border-radius: 16px;
+        box-shadow: var(--general-shadow); /* 변수 사용 */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* 플로팅 버튼 공통 스타일 */
+    .floating-btn {
+        width: 44px; /* 버튼 크기 통일 */
+        height: 44px; /* 버튼 크기 통일 */
+        border-radius: 50%;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.4em; /* 아이콘 크기 조정 */
+        color: var(--floating-btn-icon-color); /* 새로운 변수 사용 */
+        box-shadow: var(--icon-shadow); /* 변수 사용 */
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        outline: none;
+        text-decoration: none; /* 링크 버튼에 밑줄 제거 */
+    }
+    .floating-btn:hover {
+        transform: scale(1.1);
+    }
+    /* 이미지 아이콘용 스타일 (플로팅 버튼 안의 이미지) */
+    .floating-btn img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 600px) {
+      .card-link { /* 카드 링크도 반응형으로 */
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+      .container {
+        padding: 10px;
+        gap: 15px;
+      }
+      .value-change-section {
+        padding: 15px;
+        margin-top: 30px;
+      }
+      .value-change-section table {
+        width: 100%;
+        max-width: 300px;
+      }
+      .value-change-section h2 {
+        font-size: 1.5em;
+      }
+      .title-box {
+        padding: clamp(20px, 8vw, 30px) clamp(30px, 15vw, 60px);
+      }
+      .main-title {
+        font-size: clamp(2em, 7vw, 2.8em);
+      }
+      .legendary-link-section h1 {
+        font-size: 1.8em;
+      }
+      .legendary-link-section p {
+        font-size: 1em;
+      }
+      /* 플로팅 컨트롤 모바일에서 크기 조정 */
+      .floating-controls {
+        bottom: 15px;
+        right: 15px;
+        gap: 8px;
+        padding: 12px;
+      }
+      .floating-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-section">
+    <div class="title-box">
+      <h1 class="main-title">ㅤㅤN.O.T.</h1>
+      <!-- 카카오톡과 디스코드 아이콘 그룹이 제거되었습니다. -->
+    </div>
+    <p class="subtitle">“No Ordinary Team”</p>
+  </div>
+
+  <!-- 플로팅 컨트롤 창 -->
+  <div class="floating-controls">
+    <!-- 테마 토글 버튼 -->
+    <button id="themeToggle" class="floating-btn">
+      <i class="fas fa-moon"></i> <!-- 기본은 달 아이콘 (다크 모드 전환) -->
+    </button>
+    <!-- 맨 위로 이동 버튼 -->
+    <button id="scrollToTopBtn" class="floating-btn">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <!-- 맨 아래로 이동 버튼 -->
+    <button id="scrollToBottomBtn" class="floating-btn">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+
+  <h1 class="page-title">외부 링크</h1>
+  <div class="container" id="leContainer">
+    <!-- 각 카드에 링크를 추가합니다. href 값을 원하는 URL로 변경하세요. -->
+    <a href="http://nvalue.kro.kr" target="_blank" class="card-link">
+      <img class="image" src="https://i.imgur.com/6IEdMXm.png">
+      <div class="info">
+        <h2>Not 가치표 / NValue</h2>
+        <div class="info-item">클릭하여 이동</div>
+      </div>
+    </a>
+
+    <a href="https://open.kakao.com/o/gMhTl0zh" target="_blank" class="card-link">
+      <img class="image" src="https://i.imgur.com/raPDNs9.png">
+      <div class="info">
+        <h2>Not 카카오톡 오픈채팅</h2>
+        <div class="info-item">클릭하여 이동</div>
+      </div>
+    </a>
+
+    <a href="https://discord.gg/4mYhYJAEWT" target="_blank" class="card-link">
+      <img class="image" src="https://i.imgur.com/tfmaUGo.png">
+      <div class="info">
+        <h2>Not 디스코드 서버</h2>
+        <div class="info-item">클릭하여 이동</div>
+      </div>
+    </a>
+
+    <a href="http://mtdict.kro.kr" target="_blank" class="card-link">
+      <img class="image" src="https://i.imgur.com/xA3vUzP.png">
+      <div class="info">
+        <h2>MT 용어사전</h2>
+        <div class="info-item">미완성입니다.</div>
+      </div>
+    </a>
+
+    <a class="card-link">
+      <img class="image" src="https://i.imgur.com/oYOrZeH.png">
+      <div class="info">
+        <h2>현금 거래 가치표</h2>
+        <div class="info-item">예정...</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- 레전더리 가치표, 클릭하여 이동, 별 개수에 따른 가치 변화 표 섹션이 제거되었습니다. -->
+
+  <p class="text" style="margin-top: 130px;">RAWX(@4L_Xer)</p>
+  <p class="text">User(@qqopp1234), Forer(@GeekForer)</p>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const themeToggle = document.getElementById('themeToggle');
+      const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+      const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
+      const body = document.body;
+
+      // 테마 설정 함수
+      function applyTheme(theme) {
+        body.classList.remove('dark-mode');
+        let iconHtml = '';
+
+        if (theme === 'dark') {
+          body.classList.add('dark-mode');
+          iconHtml = '<i class="fas fa-sun"></i>';
+        } else {
+          body.classList.remove('dark-mode');
+          iconHtml = '<i class="fas fa-moon"></i>';
+        }
+        localStorage.setItem('theme', theme);
+        themeToggle.innerHTML = iconHtml;
+      }
+
+      // 초기 테마 설정 (localStorage에서 가져오기)
+      function setInitialTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          applyTheme('dark');
+        } else {
+          applyTheme('light');
+        }
+      }
+
+      // 테마 토글 함수 (라이트 <-> 다크 순환)
+      function toggleTheme() {
+        if (body.classList.contains('dark-mode')) {
+          applyTheme('light');
+        } else {
+          applyTheme('dark');
+        }
+      }
+
+      // 맨 위로 스크롤 함수
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+
+      // 맨 아래로 스크롤 함수
+      function scrollToBottom() {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+
+      // 초기 테마 설정
+      setInitialTheme();
+
+      // 이벤트 리스너 연결
+      themeToggle.addEventListener('click', toggleTheme);
+      scrollToTopBtn.addEventListener('click', scrollToTop);
+      scrollToBottomBtn.addEventListener('click', scrollToBottom);
+    });
+  </script>
+</body>
+</html>
